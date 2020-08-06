@@ -41,14 +41,17 @@
 
 (require 'json)
 
+(defvar go-expr-completion--tmp-file-name "./go-expr-completion.go"
+  "tmp file name")
+
 (defun go-expr-completion--byte-offset-at-point ()
   (1- (position-bytes (point))))
 
 (defun go-expr-completion--point-at-byte-offset (offset)
   (1+ (byte-to-position offset)))
 
-(defun go-expr-completion--execute-command (pos file)
-  (let ((cmd (format "go-expr-completion -pos %d -file %s" pos file)))
+(defun go-expr-completion--execute-command ()
+  (let ((cmd (format "go-expr-completion -pos %d -file %s" (go-expr-completion--byte-offset-at-point) go-expr-completion--tmp-file-name)))
     (shell-command-to-string cmd)))
 
 (defun go-expr-completion--single-expression (start-pos end-pos value)
@@ -77,8 +80,9 @@
     (insert (format "%s := " (mapconcat #'identity names ", ")))
     (goto-char (go-expr-completion--point-at-byte-offset start-pos))))
 
-(defun go-expr-completion--procedure (pos file)
-  (let* ((ret (json-read-from-string (go-expr-completion--execute-command pos file)))
+(defun go-expr-completion--procedure ()
+  (write-region (point-min) (point-max) go-expr-completion--tmp-file-name nil 'nomsg)
+  (let* ((ret (json-read-from-string (go-expr-completion--execute-command)))
          (start-pos (cdr (pop ret)))
          (end-pos (cdr (pop ret)))
          (values (coerce (cdr (pop ret)) 'list)))
@@ -88,6 +92,8 @@
 
 (defun go-expr-completion ()
   (interactive)
-  (go-expr-completion--procedure (go-expr-completion--byte-offset-at-point) (buffer-file-name)))
+  (unwind-protect
+      (go-expr-completion--procedure)
+    (delete-file go-expr-completion--tmp-file-name)))
 
 (provide 'go-expr-completion)
