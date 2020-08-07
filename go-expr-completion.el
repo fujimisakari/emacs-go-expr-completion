@@ -93,7 +93,7 @@
   (let* ((ret (json-read-from-string (go-expr-completion--execute-command)))
          (start-pos (cdr (pop ret)))
          (end-pos (cdr (pop ret)))
-         (values (coerce (cdr (pop ret)) 'list)))
+         (values (append (cdr (pop ret)) nil)))
     (if (= (length values) 1)
         (go-expr-completion--single-expression start-pos end-pos (car values))
       (go-expr-completion--multiple-expression start-pos end-pos values))))
