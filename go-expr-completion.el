@@ -1,4 +1,4 @@
-;;; go-expr-completion.el --- Complete a left-hand side from given expression for Go -*- lexical-binding: t -*-
+;;; go-expr-completion.el --- Complement the return values for Go -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2020 by Ryo Fujimoto
 
