@@ -75,9 +75,8 @@ Argument VALUE is return value metadata."
           (insert "}")
           (goto-char (go-expr-completion--point-at-byte-position start-pos))
           (insert "if err := "))
-      (progn
-        (goto-char (go-expr-completion--point-at-byte-position start-pos))
-        (insert (format "%s := " name))))
+      (goto-char (go-expr-completion--point-at-byte-position start-pos))
+      (insert (format "%s := " name)))
     (goto-char (go-expr-completion--point-at-byte-position start-pos))))
 
 (defun go-expr-completion--multiple-return (start-pos end-pos values)
