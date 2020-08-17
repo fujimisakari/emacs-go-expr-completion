@@ -56,7 +56,9 @@ Argument POSITION is current position."
 
 (defun go-expr-completion--execute-command ()
   "Execute `go-expr-completion' command."
-  (let ((cmd (format "go-expr-completion -pos %d -file %s" (go-expr-completion--byte-position-at-point) go-expr-completion--tmp-file-name)))
+  (let ((cmd (format "go-expr-completion -pos %s -file %s"
+                     (shell-quote-argument (int-to-string (go-expr-completion--byte-position-at-point)))
+                     (shell-quote-argument go-expr-completion--tmp-file-name))))
     (shell-command-to-string cmd)))
 
 (defun go-expr-completion--single-return (start-pos end-pos value)
