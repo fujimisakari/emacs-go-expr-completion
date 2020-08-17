@@ -42,7 +42,7 @@
 
 (require 'json)
 
-(defvar go-expr-completion--tmp-file-name "./go-expr-completion.go"
+(defconst go-expr-completion--tmp-file-name "./go-expr-completion.go"
   "Tmp file name.")
 
 (defun go-expr-completion--byte-position-at-point ()
