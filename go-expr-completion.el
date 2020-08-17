@@ -115,7 +115,7 @@ Argument VALUES is return value metadata."
 
 ;;;###autoload
 (defun go-expr-completion ()
-  "Not documented."
+  "Invoke `go-expr-completion'."
   (interactive)
   (unwind-protect
       (go-expr-completion--procedure)
